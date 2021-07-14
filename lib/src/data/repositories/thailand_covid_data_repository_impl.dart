@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:thailand_covid_flutter_app/src/config/api_url.dart';
 import 'package:thailand_covid_flutter_app/src/domain/entities/today_cases_model.dart';
 import 'package:thailand_covid_flutter_app/src/domain/repositories/thailand_covid_data_repository.dart';
-import 'package:http/http.dart' as http;
 
 class ThailandCovidDataRepositoryImpl extends ThailandCovidDataRepository {
 
@@ -36,4 +36,10 @@ class ThailandCovidDataRepositoryImpl extends ThailandCovidDataRepository {
     }
   }
 
+  // Future<bool> login(int userId) async {
+  //   var fetchUserData = await _api.getUserProfile(userId);
+  //
+  //   var hasUser = fetchedUser != null;
+  //   return hasUser;
+  // }
 }
