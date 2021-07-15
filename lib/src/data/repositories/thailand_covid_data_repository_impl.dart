@@ -1,15 +1,19 @@
-import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:thailand_covid_flutter_app/src/config/api_url.dart';
+import 'package:thailand_covid_flutter_app/src/data/remotes/covid_api.dart';
 import 'package:thailand_covid_flutter_app/src/domain/entities/today_cases_model.dart';
 import 'package:thailand_covid_flutter_app/src/domain/repositories/thailand_covid_data_repository.dart';
 
 class ThailandCovidDataRepositoryImpl extends ThailandCovidDataRepository {
 
+  CovidApi _covidApi;
+
+  ThailandCovidDataRepositoryImpl(this._covidApi);
 
   @override
   Future<String> getSumCases() async {
+
     final response =
     await http.get(Uri.parse(THAILAND_COVID_BASE_URL + THAILAND_COVID_TODAY_CASE_PATH));
     throw UnimplementedError();
@@ -23,23 +27,6 @@ class ThailandCovidDataRepositoryImpl extends ThailandCovidDataRepository {
 
   @override
   Future<TodayCasesModel> getTodayCases() async {
-    final response =
-    await http.get(Uri.parse(THAILAND_COVID_BASE_URL + THAILAND_COVID_TODAY_CASE_PATH));
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return TodayCasesModel.fromJson(jsonDecode(response.body));
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load album');
-    }
+    return _covidApi.getTodayCases();
   }
-
-  // Future<bool> login(int userId) async {
-  //   var fetchUserData = await _api.getUserProfile(userId);
-  //
-  //   var hasUser = fetchedUser != null;
-  //   return hasUser;
-  // }
 }

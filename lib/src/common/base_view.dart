@@ -8,13 +8,13 @@ class BaseView<T extends BaseModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;
   final Function(T) onModelReady;
 
-  BaseView({Key key, this.builder, this.onModelReady});
+  BaseView({this.builder, this.onModelReady});
 
   @override
-  _BaseViewState createState() => _BaseViewState();
+  _BaseViewState<T> createState() => _BaseViewState<T>();
 }
 
-class _BaseViewState<T extends BaseModel> extends State<BaseView> {
+class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
   T model = locator<T>();
 
   @override
@@ -28,8 +28,7 @@ class _BaseViewState<T extends BaseModel> extends State<BaseView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(
-      create: (context) => model,
-      child: Consumer<T>(builder: widget.builder,),
-    );
+        create: (context) => model,
+        child: Consumer<T>(builder: widget.builder));
   }
 }
