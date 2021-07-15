@@ -9,13 +9,21 @@ class HomeView extends StatelessWidget {
 
   static String routeName = "/home";
 
-  Widget get topSection => Container(
-        height: 100.0,
-        color: Colors.amber,
+  Widget topSection(String updateDate) => Container(
         child: Column(
           children: [
-            Text("สถานะการณ์ COVID-19 ในประเทศไทย"),
-            Text("ข้อมูลวันที่ 15 กรกฎาคม 2564"),
+            Text(
+              "สถานะการณ์ COVID-19 ในประเทศไทย",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              "ข้อมูลวันที่ $updateDate",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ],
         ),
       );
@@ -25,7 +33,10 @@ class HomeView extends StatelessWidget {
           height: 200.0,
           color: Colors.red,
           child: Column(
-            children: [Text("ผู้ติดเชื้อเพิ่มวันนี้"), Text("+$newConfirmCases")],
+            children: [
+              Text("ผู้ติดเชื้อเพิ่มวันนี้"),
+              Text("+$newConfirmCases")
+            ],
           ),
         ),
       );
@@ -96,16 +107,21 @@ class HomeView extends StatelessWidget {
       onModelReady: (model) {
         model.getTodayCase();
       },
-      builder: (context, model, child) => SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.lightBlue.shade900,
-          body: model.state == ViewState.Busy
-              ? CircularProgressIndicator()
-              : Column(
-                  children: [topSection, bodySection(model.todayCasesModel), bottomSection],
-                ),
-        ),
-      ),
+      builder: (context, model, child) =>
+          SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.lightBlue.shade900,
+              body: model.state == ViewState.Busy
+                  ? CircularProgressIndicator()
+                  : Column(
+                children: [
+                  topSection(model.todayCasesModel.updateDate),
+                  bodySection(model.todayCasesModel),
+                  bottomSection
+                ],
+              ),
+            ),
+          ),
     );
   }
 }
