@@ -10,9 +10,11 @@ class HomeModel extends BaseModel {
 
   HomeModel(this._useCase);
 
+  TodayCasesModel todayCasesModel;
+
   Future<TodayCasesModel> getTodayCase() async {
     setState(ViewState.Busy);
-    var todayCasesModel = await _useCase.getTodayCases();
+    todayCasesModel = await _useCase.getTodayCases();
     setState(ViewState.Idle);
     return todayCasesModel;
   }
